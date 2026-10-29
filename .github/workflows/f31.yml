@@ -1,0 +1,54 @@
+{
+  "concurrency": {
+    "cancel-in-progress": false,
+    "group": "f31-local-targets"
+  },
+  "jobs": {
+    "catalog": {
+      "name": "F31 catalog",
+      "secrets": {
+        "NEXUS_PASSWORD": "${{ secrets.NEXUS_PASSWORD }}",
+        "NEXUS_USERNAME": "${{ secrets.NEXUS_USERNAME }}"
+      },
+      "uses": "helloangular/helio-client-capacity-20260916/.github/workflows/qa227-b1-f31-template.yml@a4bb6bd68eb3446a56d3cf884fa6c6e4971ac4b1",
+      "with": {
+        "artifact_digest": "${{ inputs.artifact_digest }}",
+        "artifact_uri": "${{ inputs.artifact_uri }}",
+        "helio_target_environment": "${{ inputs.helio_target_environment }}",
+        "version": "${{ inputs.version }}"
+      }
+    }
+  },
+  "name": "F31 catalog reference",
+  "on": {
+    "workflow_dispatch": {
+      "inputs": {
+        "artifact_digest": {
+          "default": "",
+          "type": "string"
+        },
+        "artifact_uri": {
+          "default": "",
+          "type": "string"
+        },
+        "helio_execution_id": {
+          "default": "",
+          "type": "string"
+        },
+        "helio_target_environment": {
+          "default": "",
+          "type": "string"
+        },
+        "version": {
+          "required": true,
+          "type": "string"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "actions": "read",
+    "contents": "read"
+  },
+  "run-name": "${{ inputs.helio_execution_id || format('F31 manual {0}', github.run_id) }}"
+}
