@@ -1,0 +1,22 @@
+name: b1-catalog-release
+run-name: ${{ inputs.helio_execution_id || format('B1 catalog release {0}', github.sha) }}
+# qa227 B1 application caller (29 Oct 2026). Calls the central catalog QA template by full name, pinned to a commit.
+on:
+  workflow_dispatch:
+    inputs:
+      helio_execution_id:
+        type: string
+        required: false
+        default: ''
+      helio_target_environment:
+        type: string
+        required: false
+        default: ''
+permissions:
+  contents: read
+jobs:
+  deploy:
+    uses: helloangular/helio-client-capacity-20260916/.github/workflows/helio-catalog-deploy-qa.yml@ce44f48a8fde6090a14a8aca9f05912e0cd2ad5f
+    with:
+      helio_execution_id: ${{ inputs.helio_execution_id || '' }}
+      helio_target_environment: ${{ inputs.helio_target_environment || '' }}
