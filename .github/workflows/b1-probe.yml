@@ -1,0 +1,13 @@
+name: b1-probe
+# qa227 B1: genuine push-triggered run used as the connection readiness probe.
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: echo "b1 catalog lane probe ${GITHUB_SHA}"
