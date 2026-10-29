@@ -19,3 +19,8 @@ services:
     <<: *target
     container_name: helio-f31-prod
     ports: ["127.0.0.1:3463:8080"]
+  prod2:
+    <<: *target
+    container_name: helio-f31-prod2
+    mem_limit: 512m
+    ports: ["127.0.0.1:3464:8080"]

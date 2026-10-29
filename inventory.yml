@@ -13,6 +13,11 @@
             "ansible_host": "helio-f31-prod",
             "ansible_python_interpreter": "/usr/bin/python3"
           },
+          "b1-cat-production-b": {
+            "ansible_connection": "community.docker.docker",
+            "ansible_host": "helio-f31-prod2",
+            "ansible_python_interpreter": "/usr/bin/python3"
+          },
           "b1-cat-qa": {
             "ansible_connection": "community.docker.docker",
             "ansible_host": "helio-f31-test",
