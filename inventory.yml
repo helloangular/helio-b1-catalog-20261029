@@ -8,6 +8,21 @@
             "ansible_host": "helio-f31-uat",
             "ansible_python_interpreter": "/usr/bin/python3"
           },
+          "b1-cat-preprod-c": {
+            "ansible_connection": "community.docker.docker",
+            "ansible_host": "helio-f31-uat",
+            "ansible_python_interpreter": "/usr/bin/python3"
+          },
+          "b1-cat-preprod-d": {
+            "ansible_connection": "community.docker.docker",
+            "ansible_host": "helio-f31-uat",
+            "ansible_python_interpreter": "/usr/bin/python3"
+          },
+          "b1-cat-preprod-e": {
+            "ansible_connection": "community.docker.docker",
+            "ansible_host": "helio-f31-uat",
+            "ansible_python_interpreter": "/usr/bin/python3"
+          },
           "b1-cat-production": {
             "ansible_connection": "community.docker.docker",
             "ansible_host": "helio-f31-prod",

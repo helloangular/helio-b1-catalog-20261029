@@ -73,8 +73,8 @@ def generate(template_commit):
                                      "helio_runtime_directory_entries": [p for p, kind in kinds.items() if kind == "directory"],
                                      "helio_runtime_links": links, "helio_runtime_external": [p for p in pins if Path(p["path"]) in external]})
     inventory = {"all": {"children": {"helio_target": {"hosts": {
-        "b1-cat-" + t: {"ansible_host": "helio-f31-" + {"qa": "test", "preprod": "uat", "production": "prod", "production-b": "prod2"}[t], "ansible_connection": "community.docker.docker",
-            "ansible_python_interpreter": "/usr/bin/python3"} for t in ("qa", "preprod", "production", "production-b")}}}}}
+        "b1-cat-" + t: {"ansible_host": "helio-f31-" + {"qa": "test", "preprod": "uat", "production": "prod", "production-b": "prod2", "preprod-c": "uat", "preprod-d": "uat", "preprod-e": "uat"}[t], "ansible_connection": "community.docker.docker",
+            "ansible_python_interpreter": "/usr/bin/python3"} for t in ("qa", "preprod", "production", "production-b", "preprod-c", "preprod-d", "preprod-e")}}}}}
     save("inventory.yml", inventory)
     # The declared runtime roots must also be the effective plugin search set.
     # A pinned playbook alone does not close user/system Ansible configuration.
@@ -111,7 +111,7 @@ def generate(template_commit):
     for item in pre:
         item["tags"] = ["runtime_preflight"]
     tasks = [
-        task("Validate target and artifact inputs", "ansible.builtin.assert", {"that": ["inventory_hostname == helio_target", "helio_target in ['b1-cat-qa', 'b1-cat-preprod', 'b1-cat-production', 'b1-cat-production-b']", "helio_artifact_digest is match('^sha256:[0-9a-f]{64}$')", "helio_artifact_uri is match('^https://localhost:9444/repository/helio-releases/[A-Za-z0-9/._-]+[.]war$')"]}),
+        task("Validate target and artifact inputs", "ansible.builtin.assert", {"that": ["inventory_hostname == helio_target", "helio_target in ['b1-cat-qa', 'b1-cat-preprod', 'b1-cat-production', 'b1-cat-production-b', 'b1-cat-preprod-c', 'b1-cat-preprod-d', 'b1-cat-preprod-e']", "helio_artifact_digest is match('^sha256:[0-9a-f]{64}$')", "helio_artifact_uri is match('^https://localhost:9444/repository/helio-releases/[A-Za-z0-9/._-]+[.]war$')"]}),
         task("Prepare isolated controller download directory", "ansible.builtin.file", {"path": "{{ playbook_dir }}/evidence/{{ helio_target }}", "state": "directory", "mode": "0700"}, delegate_to="localhost"),
         task("Download and verify before copying to Tomcat", "ansible.builtin.get_url", {"url": "{{ helio_artifact_uri }}", "dest": "{{ playbook_dir }}/evidence/{{ helio_target }}/app.war", "checksum": "{{ helio_artifact_digest }}", "url_username": "{{ lookup('ansible.builtin.env', 'NEXUS_USERNAME') }}", "url_password": "{{ lookup('ansible.builtin.env', 'NEXUS_PASSWORD') }}", "validate_certs": True, "unredirected_headers": ["Authorization"], "mode": "0600", "timeout": 20}, delegate_to="localhost", no_log=True, environment={"SSL_CERT_FILE": str(HOME / ".helio-tomcat/tls/local-tls/cert.pem")}, tags=["fixture_download"]),
         task("Install only the verified WAR", "ansible.builtin.copy", {"src": "{{ playbook_dir }}/evidence/{{ helio_target }}/app.war", "dest": "/usr/local/tomcat/webapps/ROOT.war", "mode": "0644"}),

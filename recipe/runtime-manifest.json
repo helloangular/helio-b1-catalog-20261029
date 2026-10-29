@@ -24,10 +24,10 @@
       "git_blob_sha": "f165dc237a17e01140f6ba897830aff91c5477a7"
     },
     "deploy-war.yml": {
-      "git_blob_sha": "2d2cb3fc05bbbdba79be906128d1ceecf3364f3a"
+      "git_blob_sha": "59cd30b957c84a63437b2c9f51be9654343b1aff"
     },
     "inventory.yml": {
-      "git_blob_sha": "e3b9189a74ec8ab70733418424611b65c9fb84eb"
+      "git_blob_sha": "81f724a6f0b4cc81a072bb87cf4966f24939e797"
     },
     "recipe/ansible.cfg": {
       "git_blob_sha": "117458b5a14222db31e9ae2a98b33f50f62b7954"
